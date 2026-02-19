@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Task Master - Pink Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+           
+            --primary: #db2777;     
+            --primary-hover: #be185d; 
+            --primary-light: #fce7f3; 
+            --bg-gradient-1: #fdf2f8; 
+            --bg-gradient-2: #fbcfe8; 
+            
+            --text-main: #334155;
+            --text-muted: #94a3b8;
+            --card-bg: #ffffff;
+            --border-color: #fbcfe8;
+            --shadow-color: rgba(219, 39, 119, 0.15);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-1) 0%, var(--bg-gradient-2) 100%);
+            color: var(--text-main);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 650px;
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 24px; 
+            box-shadow: 0 20px 40px -5px var(--shadow-color);
+            border: 1px solid #fff;
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        h1 span {
+            background: linear-gradient(to right, #ec4899, #db2777);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+            font-weight: 400;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 140px;
+            padding: 1.2rem;
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            font-family: inherit;
+            font-size: 1rem;
+            resize: vertical;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+            background-color: #fff;
+            color: var(--text-main);
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.15); 
+        }
+
+        .controls {
+            margin-top: 1.5rem;
+            display: flex;
+            flex-direction: column; 
+            gap: 1.2rem;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            user-select: none;
+            font-weight: 500;
+        }
+
+       
+        input[type="checkbox"] {
+            accent-color: var(--primary);
+            width: 1.2rem;
+            height: 1.2rem;
+            cursor: pointer;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+        }
+
+        button {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        
+        .btn-extract {
+            background: #fff;
+            color: var(--primary);
+            border: 2px solid var(--primary-light);
+        }
+
+        .btn-extract:hover {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        
+        .btn-llm {
+            background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+            color: white;
+            box-shadow: 0 10px 15px -3px rgba(236, 72, 153, 0.3);
+        }
+
+        .btn-llm:hover {
+            opacity: 0.95;
+            transform: translateY(-2px);
+            box-shadow: 0 15px 20px -3px rgba(236, 72, 153, 0.4);
+        }
+
+        
+        .btn-list {
+            background: var(--primary-light);
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-list:hover {
+            background: #fff;
+            transform: translateY(-2px);
+        }
+
+        .items-divider {
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px dashed var(--border-color);
+            position: relative;
+        }
+        
+        .notes-divider {
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px dashed var(--border-color);
+        }
+
+        .notes-header {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .notes-list .note-item {
+            background: var(--primary-light);
+            border-color: var(--primary);
+        }
+
+        .items-divider::after {
+            content: "✨ To-Do List ✨";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--card-bg);
+            padding: 0 1rem;
+            color: var(--primary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .items {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem 1.2rem;
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            transition: all 0.2s;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        .item:hover {
+            border-color: var(--primary);
+            background-color: #fff0f7; /* Highlight Pink Tipis */
+            transform: translateX(4px);
+        }
+
+        .item span {
+            margin-top: 2px;
+            line-height: 1.5;
+        }
+
+        
+        @keyframes slideUp { 
+            from { opacity: 0; transform: translateY(15px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+
+        .loader { 
+            display: none; 
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--primary-light);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 0.5rem;
+        }
+
+        .loader-text {
+            color: var(--primary);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌸 <span>AI Task Master</span></h1>
+        <p class="subtitle">Tulis ceritamu atau catatan rapat, biar AI yang rapihin jadi tugas. semangat! ✨</p>
+
+        <textarea id="text" placeholder="Tulis catatan di sini... &#10;Contoh:&#10;Dina mau ngerjain tugas coding, abis itu mau beli seblak sama Sheila."></textarea>
+        
+        <div class="controls">
+            <div class="checkbox-container">
+                <input id="save_note" type="checkbox" checked /> 
+                <label for="save_note">Simpan Catatan ke Database</label>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn-extract" onclick="extractTasks('standard')">
+                    📝 Biasa
+                </button>
+                <button class="btn-llm" onclick="extractTasks('llm')">
+                    ✨ Extract LLM
+                </button>
+                <button class="btn-list" onclick="listNotes()">
+                    📋 List Notes
+                </button>
+            </div>
+        </div>
+
+        <div id="loader" class="loader">
+            <div class="spinner"></div>
+            <div class="loader-text">Sedang memproses... 🌸</div>
+        </div>
+
+        <div class="items-divider"></div>
+        <div class="items" id="items"></div>
+
+        <div class="notes-divider" id="notesDivider" style="display: none;"></div>
+        <div class="notes-header" id="notesHeader" style="display: none;">📚 Semua Catatan</div>
+        <div class="items notes-list" id="notesList"></div>
+    </div>
+
+    <script>
+        async function extractTasks(mode) {
+            const text = document.querySelector('#text').value;
+            const save = document.querySelector('#save_note').checked;
+            const itemsEl = document.querySelector('#items');
+            const loader = document.querySelector('#loader');
+
+            if (!text.trim()) return alert("⚠️ Catatan tidak boleh kosong!");
+
+            itemsEl.innerHTML = '';
+            loader.style.display = 'block';
+
+            try {
+                // Tentukan endpoint
+                const endpoint = mode === 'llm' ? '/action-items/extract-llm' : '/action-items/extract';
+                console.log("Mengirim request ke:", endpoint); 
+
+                const res = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text, save_note: save }),
+                });
+
+                if (!res.ok) {
+                    throw new Error(`Server Error: ${res.status}`);
+                }
+                
+                const data = await res.json();
+                console.log("Data diterima:", data); 
+                loader.style.display = 'none';
+
+                if (!data.items || data.items.length === 0) {
+                    itemsEl.innerHTML = '<p style="text-align:center; color:var(--text-muted)">📭 AI tidak menemukan tugas di catatan ini.</p>';
+                    return;
+                }
+
+                itemsEl.innerHTML = data.items.map(it => `
+                    <div class="item">
+                        <input type="checkbox" onchange="toggleDone(${it.id}, this.checked)">
+                        <span>${it.text}</span>
+                    </div>
+                `).join('');
+
+            } catch (err) {
+                loader.style.display = 'none';
+                console.error(err);
+                alert('❌ Terjadi Kesalahan:\n' + err.message);
+            }
+        }
+
+        async function toggleDone(id, isDone) {
+            await fetch(`/action-items/${id}/done`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ done: isDone }),
+            });
+        }
+
+        async function listNotes() {
+            const notesListEl = document.querySelector('#notesList');
+            const notesDivider = document.querySelector('#notesDivider');
+            const notesHeader = document.querySelector('#notesHeader');
+
+            notesListEl.innerHTML = '';
+            notesDivider.style.display = 'block';
+            notesHeader.style.display = 'block';
+
+            try {
+                const res = await fetch('/notes');
+                if (!res.ok) throw new Error(`Server Error: ${res.status}`);
+                const notes = await res.json();
+
+                if (!notes || notes.length === 0) {
+                    notesListEl.innerHTML = '<p style="text-align:center; color:var(--text-muted)">Belum ada catatan tersimpan.</p>';
+                    return;
+                }
+
+                notesListEl.innerHTML = notes.map(n => `
+                    <div class="item note-item">
+                        <span><strong>#${n.id}</strong> ${escapeHtml(n.content)}</span>
+                        <small style="color:var(--text-muted); display:block; margin-top:0.25rem">${n.created_at}</small>
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error(err);
+                notesListEl.innerHTML = '<p style="text-align:center; color:#dc2626">❌ Gagal memuat catatan.</p>';
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>

@@ -1,35 +1,50 @@
-<!doctype html>
-<html>
-  <head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Modern Software Dev Starter</title>
+    <title>Modern Note & Actions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/static/styles.css" />
-  </head>
-  <body>
+</head>
+<body>
     <main>
-      <h1>Modern Software Dev Starter</h1>
+        <header class="app-header">
+            <h1>📚 Modern Dashboard</h1>
+            <p>Kelola catatan dan tugas Anda dengan mudah</p>
+        </header>
 
-      <section>
-        <h2>Notes</h2>
-        <form id="note-form">
-          <input id="note-title" placeholder="Title" required />
-          <input id="note-content" placeholder="Content" required />
-          <button type="submit">Add</button>
-        </form>
-        <ul id="notes"></ul>
-      </section>
+        <section>
+            <h2>📝 Notes</h2>
 
-      <section>
-        <h2>Action Items</h2>
-        <form id="action-form">
-          <input id="action-desc" placeholder="Description" required />
-          <button type="submit">Add</button>
-        </form>
-        <ul id="actions"></ul>
-      </section>
+            <div class="search-bar">
+                <input id="search-input" type="text" placeholder="Cari catatan..." />
+                <button id="search-btn" class="btn-primary">Search</button>
+            </div>
+
+            <form id="note-form">
+                <input id="note-title" placeholder="Judul catatan" required />
+                <input id="note-content" placeholder="Isi catatan" required />
+                <button type="submit" class="btn-primary">+ Tambah Catatan</button>
+            </form>
+
+            <ul id="notes"></ul>
+        </section>
+
+        <section>
+            <h2>✅ Action Items</h2>
+
+            <form id="action-form">
+                <input id="action-desc" placeholder="Apa yang harus dikerjakan?" required />
+                <button type="submit" class="btn-primary">+ Tambah Tugas</button>
+            </form>
+
+            <ul id="actions"></ul>
+        </section>
     </main>
 
     <script src="/static/app.js"></script>
-  </body>
+</body>
 </html>

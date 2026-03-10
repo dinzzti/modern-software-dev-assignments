@@ -29,7 +29,13 @@ def _parse_assignee(text: str) -> tuple[str | None, str]:
 
 def extract_action_items(text: str) -> list[str]:
     """Legacy helper – returns plain description strings."""
-    return [item.description for item in extract_action_items_with_assignee(text)]
+    items = extract_action_items_with_assignee(text)
+    # Maintain backward compat: only return items that match original criteria
+    return [
+        item.description for item in items
+        if item.description.lower().startswith(("todo:", "action:")) 
+        or item.description.endswith("!")
+    ]
 
 
 def extract_action_items_with_assignee(text: str) -> list[ActionItem]:

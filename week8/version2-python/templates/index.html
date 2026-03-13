@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Si-Cuti (Python Version)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 p-10 font-sans text-slate-800">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold mb-6 text-indigo-600">Si-Cuti - Dashboard (Python Edition)</h1>
+        
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h2 class="text-xl font-semibold mb-4">Ajukan Cuti Baru</h2>
+            <form action="/add" method="POST" class="space-y-4">
+                <input type="text" name="name" placeholder="Nama Pegawai" required class="w-full border p-2 rounded">
+                <select name="type" required class="w-full border p-2 rounded">
+                    <option value="Cuti Tahunan">Cuti Tahunan</option>
+                    <option value="Cuti Sakit">Cuti Sakit</option>
+                </select>
+                <textarea name="reason" placeholder="Alasan" required class="w-full border p-2 rounded"></textarea>
+                <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">Submit form</button>
+            </form>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-xl font-semibold mb-4">Daftar Pengajuan</h2>
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-200">
+                        <th class="p-3 border-b">Nama</th>
+                        <th class="p-3 border-b">Jenis</th>
+                        <th class="p-3 border-b">Status</th>
+                        <th class="p-3 border-b">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for req in requests %}
+                    <tr class="border-b hover:bg-slate-50">
+                        <td class="p-3">{{ req.name }}</td>
+                        <td class="p-3">{{ req.type }}</td>
+                        <td class="p-3 font-bold {% if req.status == 'Approved' %}text-green-600{% else %}text-yellow-600{% endif %}">
+                            {{ req.status }}
+                        </td>
+                        <td class="p-3 flex space-x-2">
+                            <form action="/approve/{{ req.id }}" method="POST">
+                                <button type="submit" class="text-sm bg-green-500 text-white px-3 py-1 rounded">Approve</button>
+                            </form>
+                            <form action="/delete/{{ req.id }}" method="POST">
+                                <button type="submit" class="text-sm bg-red-500 text-white px-3 py-1 rounded">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
